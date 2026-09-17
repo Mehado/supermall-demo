@@ -2,12 +2,15 @@ import { useState } from "react";
 import { ShoppingCart, Plus, Check } from "lucide-react";
 import type { Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
+import { useUI } from "@/context/UIContext";
 
 export function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
+  const { openProduct } = useUI();
   const [added, setAdded] = useState(false);
 
-  const handleAdd = () => {
+  const handleAdd = (e: React.MouseEvent) => {
+    e.stopPropagation();
     addToCart(product);
     setAdded(true);
     setTimeout(() => setAdded(false), 1200);
@@ -18,7 +21,10 @@ export function ProductCard({ product }: { product: Product }) {
     : 0;
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-gray-300">
+    <div
+      onClick={() => openProduct(product)}
+      className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-200/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-gray-300"
+    >
       <div className="relative aspect-square overflow-hidden bg-gray-100">
         <img
           src={product.image}

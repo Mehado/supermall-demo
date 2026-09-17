@@ -1,4 +1,4 @@
-import { Sparkles, Apple, ShoppingBag, ArrowRight, Truck, ShieldCheck, RotateCcw } from "lucide-react";
+import { Sparkles, Apple, ShoppingBag, ArrowRight, Truck, ShieldCheck, RotateCcw, Flame } from "lucide-react";
 import type { Page } from "@/components/Navbar";
 import { products, shuffle } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
@@ -9,6 +9,7 @@ interface HomePageProps {
 
 export function HomePage({ onNavigate }: HomePageProps) {
   const featured = shuffle(products).slice(0, 8);
+  const deals = shuffle(products.filter((p) => p.originalPrice)).slice(0, 4);
 
   return (
     <div>
@@ -100,6 +101,26 @@ export function HomePage({ onNavigate }: HomePageProps) {
           ))}
         </div>
       </section>
+
+      {/* Deals Section */}
+      {deals.length > 0 && (
+        <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="mb-8 flex items-end justify-between">
+            <div>
+              <h2 className="flex items-center gap-2 text-2xl font-bold text-gray-900 sm:text-3xl">
+                <Flame className="h-7 w-7 text-red-500" />
+                Hot Deals
+              </h2>
+              <p className="mt-1 text-gray-500">Limited-time discounts on selected items</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {deals.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Category Banners */}
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
